@@ -11,7 +11,6 @@ const ARTIST = 'Fred Mug';
 // Bandcamp track IDs: Set Aside, Abide, Freight, Organismism,
 // Satiety Beach, Observatory
 const TRACK_IDS = [
-  '3983104781',
   '3448645612',
   '634055200',
   '54582703',
