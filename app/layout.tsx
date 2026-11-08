@@ -28,7 +28,7 @@ import { PATH_FEED_JSON, PATH_RSS_XML } from '@/app/path';
 import AdminBatchEditPanel from '@/admin/select/AdminBatchEditPanel';
 import AdminEditTitlesPanel from '@/admin/edit-titles/AdminEditTitlesPanel';
 import Script from 'next/script';
-import SpotifyPlayer from '@/app/SpotifyPlayer';
+import MusicPlayer from '@/app/MusicPlayer';
 import { LAYOUT_CLASS_SHELL_X } from '@/app/layout-metrics';
 
 import '../tailwind.css';
@@ -136,7 +136,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <CommandK />
-          <SpotifyPlayer />
+          <MusicPlayer />
           <Analytics debug={false} />
           <Analytics debug={false} />
           <SpeedInsights debug={false} />
