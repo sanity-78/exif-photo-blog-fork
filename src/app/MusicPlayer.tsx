@@ -8,15 +8,26 @@ const ALBUM_URL = 'https://fredsounds.bandcamp.com/album/near-satiety-beach';
 const ALBUM_TITLE = 'Near Satiety Beach';
 const ARTIST = 'Fred Mug';
 
-// Screens at least this wide (Tailwind "md") get the player open by default
+// Bandcamp track IDs: Set Aside, Abide, Freight, Organismism,
+// Satiety Beach, Observatory
+const TRACK_IDS = [
+  '3983104781',
+  '3448645612',
+  '634055200',
+  '54582703',
+  '2027596700',
+  '2048994919',
+];
+
+// Screens at least this wide get the player open by default
 const OPEN_BY_DEFAULT_MIN_WIDTH = 768;
 
 // Fixed colors: the address never changes, so switching the site theme
 // does not reload the embed or interrupt playback
-const EMBED_URL =
+const getEmbedUrl = (trackId: string) =>
   `https://bandcamp.com/EmbeddedPlayer/album=${ALBUM_ID}/size=large/` +
   'bgcol=000000/linkcol=a3a3a3/tracklist=false/artwork=small/' +
-  'transparent=true/';
+  `track=${trackId}/transparent=true/`;
 
 export default function MusicPlayer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,10 +35,11 @@ export default function MusicPlayer() {
   // phones until a visitor taps the button. Once created it stays mounted
   // so music keeps playing while the card is hidden.
   const [hasOpened, setHasOpened] = useState(false);
+  // Random starting track, chosen once per page load in the browser
+  const [trackId, setTrackId] = useState<string | undefined>();
 
-  // Open by default on larger screens only (checked after first render
-  // to avoid server/browser mismatches)
   useEffect(() => {
+    setTrackId(TRACK_IDS[Math.floor(Math.random() * TRACK_IDS.length)]);
     if (window.matchMedia(
       `(min-width: ${OPEN_BY_DEFAULT_MIN_WIDTH}px)`,
     ).matches) {
@@ -38,7 +50,7 @@ export default function MusicPlayer() {
 
   return (
     <div className="fixed bottom-3 left-3 z-40 flex flex-col items-start gap-1.5">
-      {hasOpened &&
+      {hasOpened && trackId &&
         <div
           className={clsx(
             'rounded-md border p-1.5 shadow-sm',
@@ -48,7 +60,7 @@ export default function MusicPlayer() {
         >
           <iframe
             title="Bandcamp player"
-            src={EMBED_URL}
+            src={getEmbedUrl(trackId)}
             width="350"
             height="120"
             loading="lazy"
