@@ -16,10 +16,10 @@ const EMBED_URL =
   'transparent=true/';
 
 export default function MusicPlayer() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   // The embed only exists after the first click, so nothing loads or plays
   // on page load. Once created it stays mounted so music keeps playing.
-  const [hasOpened, setHasOpened] = useState(false);
+  const [hasOpened, setHasOpened] = useState(true);
 
   return (
     <div className="fixed bottom-3 left-3 z-40 flex flex-col items-start gap-1.5">
