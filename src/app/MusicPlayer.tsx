@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx/lite';
 
 const ALBUM_ID = '3283857706';
 const ALBUM_URL = 'https://fredsounds.bandcamp.com/album/near-satiety-beach';
 const ALBUM_TITLE = 'Near Satiety Beach';
 const ARTIST = 'Fred Mug';
+
+// Screens at least this wide (Tailwind "md") get the player open by default
+const OPEN_BY_DEFAULT_MIN_WIDTH = 768;
 
 // Fixed colors: the address never changes, so switching the site theme
 // does not reload the embed or interrupt playback
@@ -16,10 +19,22 @@ const EMBED_URL =
   'transparent=true/';
 
 export default function MusicPlayer() {
-  const [isOpen, setIsOpen] = useState(true);
-  // The embed only exists after the first click, so nothing loads or plays
-  // on page load. Once created it stays mounted so music keeps playing.
-  const [hasOpened, setHasOpened] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  // The embed only exists once it has been opened, so nothing loads on
+  // phones until a visitor taps the button. Once created it stays mounted
+  // so music keeps playing while the card is hidden.
+  const [hasOpened, setHasOpened] = useState(false);
+
+  // Open by default on larger screens only (checked after first render
+  // to avoid server/browser mismatches)
+  useEffect(() => {
+    if (window.matchMedia(
+      `(min-width: ${OPEN_BY_DEFAULT_MIN_WIDTH}px)`,
+    ).matches) {
+      setIsOpen(true);
+      setHasOpened(true);
+    }
+  }, []);
 
   return (
     <div className="fixed bottom-3 left-3 z-40 flex flex-col items-start gap-1.5">
